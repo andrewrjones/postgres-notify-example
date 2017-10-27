@@ -13,7 +13,7 @@ ALTER SEQUENCE customers_id_seq RESTART WITH 101;
 -- log table
 CREATE TABLE update_log (
   id SERIAL NOT NULL PRIMARY KEY,
-  payload VARCHAR(65000) NOT NULL
+  payload TEXT
 );
 ALTER SEQUENCE update_log_id_seq RESTART WITH 1001;
 
@@ -44,6 +44,7 @@ BEGIN
       WHERE  relkind = 'r'
       AND    n.nspname = 'inventory'
       AND    c.relname != 'update_log'
+      AND    c.relname !~~ 'pg_%'
     LOOP
       EXECUTE 'CREATE TRIGGER ' || tbl || '_update_log_update AFTER UPDATE ON ' || tbl || ' FOR EACH ROW EXECUTE PROCEDURE table_update_log();';
       EXECUTE 'CREATE TRIGGER ' || tbl || '_update_log_insert AFTER INSERT ON ' || tbl || ' FOR EACH ROW EXECUTE PROCEDURE table_update_log();';
