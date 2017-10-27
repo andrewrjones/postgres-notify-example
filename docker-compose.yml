@@ -1,0 +1,6 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:9.4.9
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
