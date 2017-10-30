@@ -16,6 +16,7 @@ CREATE TABLE update_log (
   payload TEXT
 );
 ALTER SEQUENCE update_log_id_seq RESTART WITH 1001;
+GRANT INSERT ON update_log TO PUBLIC;
 
 -- function to update the log table
 CREATE OR REPLACE FUNCTION table_update_log() RETURNS trigger AS $$
